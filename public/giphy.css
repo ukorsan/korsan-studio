@@ -1,0 +1,26 @@
+
+/* GIPHY API catalog: isolated from the user's local media library. */
+#tab-giphy .giphy-key-form,
+#tab-giphy .giphy-search {display:flex;flex-direction:column;gap:8px;margin:15px 0;padding:12px;border-radius:10px;background:#222333;border:1px solid #38394e}
+#tab-giphy label {font-size:11px;letter-spacing:.02em;font-weight:700;color:#bdc4d8}
+#tab-giphy input,#tab-giphy select {min-width:0;max-width:100%;box-sizing:border-box;background:#121422;color:#eef0f7;border:1px solid #55546b;border-radius:7px;padding:10px 9px;font:inherit}
+#tab-giphy .giphy-actions {display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+#tab-giphy .giphy-actions .btn {flex:1;min-width:70px;font-size:11px;padding:9px 7px}
+#tab-giphy .giphy-key-form small {color:#a4aec2;line-height:1.55;font-size:10px}
+#tab-giphy .giphy-status {font-size:11px;line-height:1.5;color:#abc2da;padding:9px 3px;min-height:20px}
+#tab-giphy .giphy-results {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:9px 0 14px}
+#tab-giphy .giphy-card {background:#1b1e2e;border:1px solid #34384c;border-radius:9px;min-width:0;overflow:hidden;display:flex;flex-direction:column}
+#tab-giphy .giphy-card>img {width:100%;aspect-ratio:1/1;object-fit:contain;background:#0c0d16}
+#tab-giphy .giphy-item-meta {display:flex;flex-direction:column;padding:7px 8px;gap:4px;flex:1}
+#tab-giphy .giphy-item-meta span {font-size:10px;color:#e1e7f1;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+#tab-giphy .giphy-item-meta small {font-size:9px;color:#93a0b9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#tab-giphy .giphy-card .giphy-actions {display:flex;justify-content:space-between;align-items:center;padding:8px;gap:3px}
+#tab-giphy .giphy-link {font-size:10px;color:#87d9f4;text-decoration:underline}
+#tab-giphy .giphy-only-preview {font-size:9px;color:#8fa4aa}
+#tab-giphy .giphy-warning {font-size:10px;line-height:1.6;color:#b9a6c6;padding:10px;border:1px solid #52455a;background:#302637;border-radius:8px}
+#tab-giphy .giphy-attribution {display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:13px 0 30px;padding:10px;border-top:1px solid #43445a}
+#tab-giphy .giphy-attribution a {font-size:12px;font-weight:800;color:#f7f8ff;text-decoration:none}
+#tab-giphy .giphy-attribution small {font-size:10px;color:#a4a8bb;line-height:1.5}
+#tab-giphy .giphy-rainbow {display:inline-block;width:22px;height:22px;background:linear-gradient(to right,#03ff99 0 20%,#00ccff 20% 40%,#9933ff 40% 60%,#ff6666 60% 80%,#ffcc00 80%);border-radius:3px}
+#tab-giphy #giphy-more[hidden] {display:none}
+#tab-giphy .giphy-brand-logo {display:block;max-width:100px;height:auto;object-fit:contain;}

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KORSAN Studio</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/giphy.css">
+<link rel="stylesheet" href="/stock-library.css">
+<link rel="stylesheet" href="/transitions.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brandmark">K</span><span>KORSAN <b>STUDIO</b></span><span class="version">BETA 1.0</span></div>
+  <span class="top-divider"></span>
+  <input id="project-name" type="text" aria-label="Nome do projeto" value="Projeto sem título" spellcheck="false">
+  <span class="autosave" id="save-status">● Guardado localmente</span>
+  <div class="top-spacer"></div>
+  <label class="quality">Formato <select id="aspect"><option value="16:9">16:9 · Horizontal</option><option value="9:16">9:16 · Vertical</option></select></label>
+  <label class="quality">Qualidade <select id="quality"><option value="1080p">1080p</option><option value="720p">720p</option></select></label>
+  <button class="btn btn-primary" id="export"><span>↗</span> Exportar</button>
+</header>
+<div class="editor">
+  <nav class="rail" aria-label="Ferramentas">
+    <button class="rail-btn active" data-tab="media"><span class="rail-icon">▦</span><small>Multimédia</small></button>
+    <button class="rail-btn" data-tab="giphy"><span class="rail-icon">GIF</span><small>GIPHY</small></button>
+    <button class="rail-btn" data-tab="stock"><span class="rail-icon">✧</span><small>Vetores</small></button>
+    <button class="rail-btn" data-tab="transitions"><span class="rail-icon">◈</span><small>Transições</small></button>
+    <button class="rail-btn" data-tab="text"><span class="rail-icon">T</span><small>Texto</small></button>
+    <button class="rail-btn" data-tab="audio"><span class="rail-icon">♫</span><small>Áudio</small></button>
+    <button class="rail-btn" data-tab="about"><span class="rail-icon">ⓘ</span><small>Ajuda</small></button>
+    <div class="rail-bottom">K</div>
+  </nav>
+  <aside class="library-panel">
+    <div class="panel-content" id="tab-media">
+      <h2>Os teus ficheiros</h2><p class="subtle">Importa os teus vídeos, imagens e áudio.</p>
+      <input hidden type="file" id="file" accept="video/*,image/*,audio/*" multiple>
+      <button class="btn btn-accent block" id="import">＋ Importar multimédia</button>
+      <div class="drop-zone" id="dropzone">Arrasta ficheiros para aqui</div>
+      <div class="asset-heading">BIBLIOTECA <span id="asset-count">0 ficheiros</span></div>
+      <div id="media-list" class="media-list"></div>
+    </div>
+    <div class="panel-content hidden" id="tab-text">
+      <h2>Texto</h2><p class="subtle">Cria títulos e legendas manuais.</p>
+      <button class="btn btn-accent block" id="add-text">＋ Adicionar título</button>
+      <div class="text-demo">TÍTULO PRINCIPAL</div>
+      <div class="text-demo text-demo2">Texto simples</div>
+      <p class="hint">Seleciona o título na timeline para editar o conteúdo, a posição e a duração.</p>
+    </div>
+    <div class="panel-content hidden" id="tab-audio">
+      <h2>Áudio e música</h2><p class="subtle">Importa áudio ou extrai-o dos vídeos.</p>
+      <button class="btn btn-accent block" id="import-audio">＋ Importar áudio</button>
+      <div id="audio-list" class="media-list"></div>
+    </div>
+    <div class="panel-content hidden" id="tab-giphy">
+      <h2>GIFs e Stickers</h2>
+      <p class="subtle">Explora a GIPHY diretamente, sem guardar os GIFs no projeto.</p>
+      <div class="giphy-key-form">
+        <label for="giphy-key">GIPHY API Key (Beta)</label>
+        <input id="giphy-key" type="password" autocomplete="off" placeholder="Colar chave da GIPHY">
+        <div class="giphy-actions">
+          <button id="giphy-save-key" class="btn btn-accent" type="button">Ligar GIPHY</button>
+          <button id="giphy-clear-key" class="btn" type="button">Limpar</button>
+        </div>
+        <small>A chave é usada diretamente neste dispositivo e guardada só nesta sessão. Não é enviada ao servidor KORSAN.</small>
+      </div>
+      <form id="giphy-search" class="giphy-search">
+        <label for="giphy-kind">Tipo de conteúdo</label>
+        <select id="giphy-kind"><option value="gifs">GIFs</option><option value="stickers">Stickers</option></select>
+        <input type="search" id="giphy-query" placeholder="Pesquisar GIFs ou stickers..." maxlength="90">
+        <div class="giphy-actions">
+          <button class="btn btn-accent" type="submit">Pesquisar</button>
+          <button class="btn" type="button" id="giphy-trending">Tendências</button>
+        </div>
+      </form>
+      <p id="giphy-status" role="status" aria-live="polite" class="giphy-status">Introduz a tua chave GIPHY para começar.</p>
+      <div id="giphy-results" class="giphy-results" aria-label="Resultados GIPHY"></div>
+      <button class="btn block" type="button" id="giphy-more" hidden>Mostrar mais</button>
+      <p class="giphy-warning">Acesso de consulta e pré-visualização. A importação de conteúdo GIPHY para exportar em vídeos não está ativada até serem confirmadas as permissões necessárias.</p>
+      <div class="giphy-attribution">
+        <img src="/giphy-powered.gif" alt="Logótipo oficial Powered by GIPHY" class="giphy-brand-logo">
+        <a href="https://giphy.com/" rel="noopener noreferrer" target="_blank">Powered by GIPHY</a>
+        <small>Conteúdo e direitos pertencem aos respetivos criadores.</small>
+      </div>
+    </div>
+    <div class="panel-content hidden" id="tab-stock">
+      <h2>Biblioteca de Multimédia</h2>
+      <p class="subtle">Logos, ícones e formas para os teus vídeos. Pesquisa local, sem conta nem API.</p>
+      <div class="stock-tools">
+        <label>Categoria</label><select id="stock-kind"><option value="brands">Logos de marcas</option><option value="icons">Ícones e vetores</option><option value="shapes">Formas e overlays</option></select>
+        <input id="stock-query" type="search" placeholder="Pesquisar YouTube, Twitch, seta…" maxlength="80" aria-label="Pesquisa de vetores">
+        <select id="stock-category" aria-label="Filtrar categoria"></select>
+        <div class="stock-settings"><label>Cor <input type="color" id="stock-color" value="#9B83FF"></label><button class="btn" id="stock-default-color">Original</button></div>
+        <div class="stock-settings"><label><input type="checkbox" id="stock-favorites"> Só favoritos</label><button class="btn" id="stock-reload">Atualizar</button></div>
+      </div>
+      <div class="stock-counter"><b id="stock-count">A carregar…</b><span>Vetores offline</span></div>
+      <p id="stock-status" class="hint" role="status" aria-live="polite">A carregar catálogo local…</p>
+      <div id="stock-grid" class="stock-grid"></div>
+      <button id="stock-more" class="btn block" hidden>Mostrar mais</button>
+      <p class="stock-footnote">Importar cria um PNG transparente. + Timeline adiciona uma sobreposição na pista V2. ↓ SVG mantém o formato vetorial.</p>
+      <p class="stock-footnote">Lucide (ISC), gráficos KORSAN (MIT). Logos Simple Icons: marcas pertencem aos respetivos titulares, podendo existir restrições de utilização. Não existe associação ou patrocínio dessas marcas.</p>
+    </div>
+        <div class="panel-content hidden" id="tab-transitions">
+      <h2>Transições</h2>
+      <p class="tr-lead">Efeitos suaves e dinâmicos inspirados na edição do Clipchamp e Canva.</p>
+      <div class="tr-toolbar">
+        <label for="transition-duration">Duração <span id="tr-duration-value">0,7 s</span></label>
+        <input type="range" min=".1" max="3" step=".1" value=".7" id="transition-duration">
+        <div class="tr-buttons"><button class="btn btn-accent" id="tr-apply">✦ Aplicar</button><button class="btn" id="tr-remove">Remover</button></div>
+        <p id="transition-help" role="status" aria-live="polite">Seleciona o segundo de dois clips na pista V1 para aplicar um efeito.</p>
+      </div>
+      <div id="transition-grid"></div>
+      <p class="tr-notice">Aplica entre clips V1 consecutivos. A exportação inclui a transição visual e fades de áudio.</p>
+    </div>
+    <div class="panel-content hidden" id="tab-about">
+      <h2>KORSAN Video Editor</h2><p class="subtle">Edição local, gratuita e com código aberto.</p>
+      <div class="about-box"><b>KORSAN Studio Beta</b><p>Video, audio, graphics, transitions and local export.</p></div>
+      <p class="hint">Local editing. Some advanced effects are still under development.</p>
+      <div class="keyboard"><kbd>Espaço</kbd> Reproduzir / Pausar</div><div class="keyboard"><kbd>S</kbd> Dividir</div><div class="keyboard"><kbd>Del</kbd> Eliminar clip</div><div class="keyboard"><kbd>Ctrl+Z</kbd> Desfazer</div>
+    </div>
+  </aside>
+  <main class="workarea">
+    <div class="canvas-area">
+      <div class="workspace-label">PRÉ-VISUALIZAÇÃO <span id="canvas-badge">1920 × 1080</span></div>
+      <div class="canvas-container">
+        <div class="canvas-frame landscape" id="frame">
+          <video id="preview" playsinline preload="metadata"></video>
+          <img id="image-preview" alt="Imagem da timeline" class="hidden">
+          <div id="title-preview" class="title-preview hidden"></div>
+          <div id="empty-preview"><span class="empty-preview-icon">▶</span><h3>O teu próximo vídeo começa aqui</h3><p>Arrasta vídeos para a timeline para começar.</p></div>
+        </div>
+      </div>
+      <div class="playback"><span id="current-time">00:00.00</span><button id="prev" class="control" title="Início">◂|</button><button id="play" class="control main-play" title="Reproduzir (Espaço)">▶</button><button id="next" class="control" title="Fim">|▸</button><span id="duration">00:00.00</span></div>
+    </div>
+    <aside class="properties">
+      <h2>Propriedades</h2>
+      <div id="inspector"><div class="inspector-empty"><span>◫</span><p>Seleciona um clip na timeline para editar as propriedades.</p></div></div>
+    </aside>
+  </main>
+  <section class="timeline-section">
+    <div class="timeline-tools">
+      <div class="timeline-title">TIMELINE <span class="timeline-counter" id="clip-counter">0 clips</span></div>
+      <div class="toolbar-group"><button class="tool" id="split" title="Dividir no cursor (S)">✂ Dividir</button><button class="tool" id="undo" title="Desfazer (Ctrl+Z)">↶ Desfazer</button><button class="tool" id="delete" title="Eliminar selecionado">⌫ Eliminar</button></div>
+      <div class="top-spacer"></div>
+      <div class="zoom"><span>−</span><input type="range" id="zoom" min="8" max="80" value="24"><span>＋</span></div>
+    </div>
+    <div class="timeline-body">
+      <div class="track-head"><div class="time-head">TEMPO</div><div class="track-label">T1 <small>Títulos</small></div><div class="track-label">V1 <small>Vídeo</small></div><div class="track-label">A1 <small>Áudio</small></div></div>
+      <div class="timeline-scroll" id="timeline-scroll">
+        <div class="timeline-inner" id="timeline-inner">
+          <div class="ruler" id="ruler"></div>
+          <div class="track" data-type="text" id="track-text"></div>
+          <div class="track" data-type="video" id="track-video"></div>
+          <div class="track" data-type="audio" id="track-audio"></div>
+          <div id="playhead"><div class="playhead-cap"></div><div class="playhead-line"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="statusbar"><span id="status" class="status-dot">● Pronto para criar</span><span>Local FFmpeg rendering</span></div>
+  </section>
+</div>
+<div class="modal-backdrop hidden" id="render-modal"><div class="modal"><div class="modal-icon">↗</div><h2 id="render-title">A exportar o teu vídeo</h2><p id="render-description">O processamento é realizado localmente, sem enviar ficheiros para a cloud.</p><div class="progress"><div id="progress-bar"></div></div><span id="progress-text">0%</span><a class="btn btn-primary block hidden" id="download" href="#" download>↓ Transferir vídeo</a><button class="btn btn-ghost block" id="close-modal">Fechar</button></div></div>
+<div id="toast" class="toast hidden"></div>
+<script src="/app.js"></script>
+<script src="/v2.js"></script>
+<script src="/v3.js"></script>
+<script src="/v4.js"></script>
+<script src="/keyframes.js"></script>
+<script src="/v5.js"></script>
+<script src="/giphy.js"></script>
+<script src="/stock-library.js"></script>
+<script src="/transitions.js"></script>
+<script src="/transitions-ui.js"></script>
+<script src="/dynamic-timeline.js"></script>
+<script src="/i18n.js"></script>
+</body>
+</html>

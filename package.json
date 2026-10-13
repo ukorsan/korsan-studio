@@ -1,0 +1,29 @@
+{
+  "name": "korsan-studio",
+  "version": "1.0.0-beta.1",
+  "description": "Local-first desktop video editor for Windows with transitions, effects and a dynamic timeline",
+  "author": "KORSAN",
+  "repository": {"type":"git","url":"https://github.com/ukorsan/korsan-studio.git"},
+  "homepage": "https://github.com/ukorsan/korsan-studio",
+  "private": false,
+  "license": "MIT",
+  "main": "desktop.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check public/app.js && node --check public/i18n.js && node --check public/dynamic-timeline.js && node --check public/transitions.js && node --check public/transitions-ui.js && node --check composition-v9.js",
+    "test": "node --test tests/unit.test.js",
+    "desktop": "electron .",
+    "package:win": "electron-builder --win portable --x64"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "electron": "^44.7.0",
+    "electron-builder": "^26.15.3"
+  },
+  "dependencies": {
+    "lucide-static": "^1.55.0",
+    "simple-icons": "^16.35.0"
+  }
+}

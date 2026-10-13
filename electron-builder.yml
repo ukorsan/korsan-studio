@@ -1,0 +1,21 @@
+appId: dev.korsan.studio
+productName: KORSAN Studio
+directories:
+  output: dist
+files:
+  - desktop.js
+  - server.js
+  - stock-library.js
+  - composition-v9.js
+  - waveforms.js
+  - public/**/*
+  - package.json
+asar: true
+win:
+  target:
+    - target: portable
+      arch:
+        - x64
+  icon: assets/icon.ico
+portable:
+  artifactName: KorsanStudio-1.0.0-beta.1.exe

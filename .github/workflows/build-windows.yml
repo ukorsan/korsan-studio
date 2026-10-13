@@ -1,0 +1,48 @@
+name: Build Windows
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 35
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: "false"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Syntax checks
+        run: |
+          npm run check
+          node --check public/i18n.js
+          node --check public/dynamic-timeline.js
+          node --check public/transitions.js
+          node --check public/transitions-ui.js
+          node --check composition-v9.js
+      - name: Unit tests
+        run: npm test
+      - name: Security audit - production
+        run: npm audit --omit=dev --audit-level=high
+      - name: Package portable EXE
+        run: npm run package:win
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: KorsanStudio-Windows-x64
+          path: dist/KorsanStudio-1.0.0-beta.1.exe
+          if-no-files-found: error
+          retention-days: 30
